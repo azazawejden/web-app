@@ -1,5 +1,7 @@
 const express = require('express');
 const moment = require('moment');
+const path = require('path')
+
 
 const app = express();
 
@@ -8,6 +10,7 @@ const checkWorkingHours = (req, res, next) => {
   const now = moment();
   const dayOfWeek = now.day();
   const hour = now.hour();
+
 
   if (dayOfWeek >= 1 && dayOfWeek <= 5 && hour >= 9 && hour <= 17) {
     next();
@@ -18,15 +21,15 @@ const checkWorkingHours = (req, res, next) => {
 
 // Routes
 app.get('/', checkWorkingHours, (req, res) => {
-  res.send('<h1>Home Page</h1>');
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
 app.get('/services', checkWorkingHours, (req, res) => {
-  res.send('<h1>Our Services</h1>');
+  res.sendFile(path.join(__dirname, 'public', 'services.html'));
 });
 
 app.get('/contact', checkWorkingHours, (req, res) => {
-  res.send('<h1>Contact Us</h1>');
+  res.sendFile(path.join(__dirname, 'public', 'contacts.html'));
 });
 
 // Start the server
